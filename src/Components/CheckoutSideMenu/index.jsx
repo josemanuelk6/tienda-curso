@@ -30,7 +30,7 @@ const CheckoutSideMenu = () => {
                 <h2 className="font-medium text-xl">My Order</h2>
                 <XMarkIcon className='h-6 w-6 text-red-400 hover:text-red-700 cursor-pointer' onClick={()=>context.closeCheckoutSideMenu()}/>
             </div>
-            <div className='overflow-y-scroll px-6 flex-1'>
+            <div className='overflow-y-scroll overflow-x-hidden px-6 flex-1'>
             {
                 context.cartProducts.map(product=> <OrderCard 
                     key={product.id}

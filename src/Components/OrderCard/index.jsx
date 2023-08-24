@@ -12,10 +12,10 @@ const OrderCard = props => {
                 <figure className="w-20 h-20">
                     <img className="w-full h-full rounded-lg object-cover" src={imagesUrl} alt={title}/>
                 </figure>
-                <p className="text-sm font-light">{title}</p>
+                <p className="text-xs font-light w-40">{title}</p>
             </div>
             <div className="flex items-center gap-2">
-               <p className="text-lg font-medium">{price} € </p>
+               <p className="text-sm font-medium">{price}€ </p>
                 {renderXMarkIcon}
             </div>
         </div>

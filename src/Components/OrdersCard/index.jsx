@@ -9,10 +9,10 @@ const OrdersCard = props => {
            <div className="flex justify-between w-full">
             <p>
             <span>01.02.23</span>
-            <span className="font-light">Total items: {totalProducts}</span>
+            <span className="font-light ml-2">{totalProducts} articles</span>
             </p>
             <p className="flex gap-2 items-center">
-            <span className="font-medium text-xl">{totalPrice} €</span>
+            <span className="font-medium text-l">{totalPrice}€</span>
             <ChevronRightIcon className="h-6 w-6 text-black "/>
             </p>
            </div>
