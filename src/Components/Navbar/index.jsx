@@ -7,6 +7,49 @@ const Navbar = () => {
     const context = useContext(ShoppingCartContext);
     const activeStyle = 'underline underline-offset-4';
 
+    //Sign out
+    const signOut = localStorage.getItem('sign-out');
+    const parsedSignOut = JSON.parse(signOut);
+    const isUserSignOut = context.signOut || parsedSignOut;
+
+
+    const renderView = () => {
+        if (isUserSignOut) {
+            return (
+                <li onClick={()=>handleSignOut()}><NavLink to='/sign-in' className={({ isActive }) => 
+            isActive ? activeStyle : undefined
+        } 
+        >Sign in</NavLink></li>
+            )
+        } else {
+            return (
+          <>                     
+                <li className="text-black/60 italic">josemanuelk6@hotmail.com</li>
+                <li><NavLink to='/my-orders' className={({ isActive }) => 
+        isActive ? activeStyle : undefined
+    }>My Orders</NavLink></li>
+                <li><NavLink to='/my-account' className={({ isActive }) => 
+        isActive ? activeStyle : undefined
+    }>My Account</NavLink></li>
+                <li onClick={()=>handleSignOut()}><NavLink to='/sign-in' className={({ isActive }) => 
+        isActive ? activeStyle : undefined
+    } 
+    >Sign out</NavLink></li>
+                <li className="flex item-center" ><NavLink to='/my-order' className={({ isActive }) => 
+        isActive ? activeStyle : undefined
+    }><ShoppingCartIcon  className="w-4 h-4 hover:text-red-500"/></NavLink> <div className="border border-blue-800 rounded-lg px-1 text-xs">{context.cartProducts.length}</div></li>
+       </>
+            )
+
+        }
+    }
+
+    const handleSignOut = () => {
+        const stringifiedSignOut = JSON.stringify(true);
+        localStorage.setItem('sign-out', stringifiedSignOut);
+        context.setSignOut(true);
+    }
+
     return (
         <nav className="flex justify-between items-center fixed z-10 w-full top-0 py-5 px-8 text-sm font-light bg-white">
             <ul className="flex items-center gap-3">
@@ -46,21 +89,7 @@ const Navbar = () => {
             </ul>
 
             <ul className="flex items-center gap-3">
-               
-                    <li className="text-black/60 italic">cuenta@mail.com</li>
-                    <li><NavLink to='/my-orders' className={({ isActive }) => 
-            isActive ? activeStyle : undefined
-        }>My Orders</NavLink></li>
-                    <li><NavLink to='/my-account' className={({ isActive }) => 
-            isActive ? activeStyle : undefined
-        }>My Account</NavLink></li>
-                    <li><NavLink to='/sign-in' className={({ isActive }) => 
-            isActive ? activeStyle : undefined
-        }>Sign in</NavLink></li>
-                    <li className="flex item-center" ><NavLink to='/my-order' className={({ isActive }) => 
-            isActive ? activeStyle : undefined
-        }><ShoppingCartIcon  className="w-4 h-4 hover:text-red-500"/></NavLink> <div className="border border-blue-800 rounded-lg px-1 text-xs">{context.cartProducts.length}</div></li>
-                
+                {renderView()}
             </ul>
 
             

@@ -1,9 +1,42 @@
 import { createContext, useState, useEffect } from "react";
+import React from "react";
 
 export const ShoppingCartContext = createContext();
 
 
+// inicialiate local storage
+export const initializeLocalStorage = () => {
+    const accountInLocalStorage = localStorage.getItem('account');
+    const signOutInLocalStorage = localStorage.getItem('sign-out');
+    let parsedAccount;
+    let parsedSignOut;
+
+    if (!accountInLocalStorage) {
+        localStorage.setItem('account', JSON.stringify({}));
+        parsedAccount = {};
+    }else {
+        parsedAccount = JSON.parse(accountInLocalStorage);
+    }
+
+    if (!signOutInLocalStorage) {
+        localStorage.setItem('sign-out', JSON.stringify(false));
+        parsedSignOut = false;
+    } else {
+        parsedSignOut = JSON.parse(signOutInLocalStorage);
+    }
+}
+
+initializeLocalStorage();
+
+
 export const ShoppingCartProvider = ({children}) => {
+    //My Account
+    const [account, setAccount] = useState({});
+
+    //Sign Out
+    const [signOut, setSignOut] = useState(false);
+
+
     //Search by title
     const [searchByTitle, setSearchByTitle] = useState(null);
 
@@ -99,7 +132,11 @@ export const ShoppingCartProvider = ({children}) => {
             setSearchByTitle,
             filteredItems,
             searchByCategory,
-            setSearchByCategory
+            setSearchByCategory,
+            account,
+            setAccount,
+            signOut,
+            setSignOut
         }}>
             {children}
         </ShoppingCartContext.Provider>
