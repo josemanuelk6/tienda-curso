@@ -35,9 +35,7 @@ const Navbar = () => {
         isActive ? activeStyle : undefined
     } 
     >Sign out</NavLink></li>
-                <li className="flex item-center" ><NavLink to='/my-order' className={({ isActive }) => 
-        isActive ? activeStyle : undefined
-    }><ShoppingCartIcon  className="w-4 h-4 hover:text-red-500"/></NavLink> <div className="border border-blue-800 rounded-lg px-1 text-xs">{context.cartProducts.length}</div></li>
+                
        </>
             )
 
@@ -90,6 +88,10 @@ const Navbar = () => {
 
             <ul className="flex items-center gap-3">
                 {renderView()}
+
+                <li className="flex item-center" ><NavLink to='/my-order' className={({ isActive }) => 
+        isActive ? activeStyle : undefined
+    }><ShoppingCartIcon  className="w-4 h-4 hover:text-red-500"/></NavLink> <div className="border border-blue-800 rounded-lg px-1 text-xs">{context.cartProducts.length}</div></li>
             </ul>
 
             
