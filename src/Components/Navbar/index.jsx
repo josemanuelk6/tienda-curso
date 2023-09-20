@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCartContext } from "../../Context";
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import ShoppingCart from "../ShoppingCart";
+
 
 const Navbar = () => {
     const context = useContext(ShoppingCartContext);
@@ -11,12 +12,21 @@ const Navbar = () => {
     const signOut = localStorage.getItem('sign-out');
     const parsedSignOut = JSON.parse(signOut);
     const isUserSignOut = context.signOut || parsedSignOut;
+      // Account
+  const account = localStorage.getItem('account')
+  const parsedAccount = JSON.parse(account)
+  // Has an account
+  const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true
+  const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true
+  const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
+
+
 
 
     const renderView = () => {
-        if (isUserSignOut) {
+        if (isUserSignOut && !hasUserAnAccount) {
             return (
-                <li onClick={()=>handleSignOut()}><NavLink to='/sign-in' className={({ isActive }) => 
+                <li><NavLink to='/sign-in' className={({ isActive }) => 
             isActive ? activeStyle : undefined
         } 
         >Sign in</NavLink></li>
@@ -24,7 +34,7 @@ const Navbar = () => {
         } else {
             return (
           <>                     
-                <li className="text-black/60 italic">josemanuelk6@hotmail.com</li>
+                <li className="text-black/60 italic">{context.account?.email}</li>
                 <li><NavLink to='/my-orders' className={({ isActive }) => 
         isActive ? activeStyle : undefined
     }>My Orders</NavLink></li>
@@ -89,9 +99,7 @@ const Navbar = () => {
             <ul className="flex items-center gap-3">
                 {renderView()}
 
-                <li className="flex item-center" ><NavLink to='/my-order' className={({ isActive }) => 
-        isActive ? activeStyle : undefined
-    }><ShoppingCartIcon  className="w-4 h-4 hover:text-red-500"/></NavLink> <div className="border border-blue-800 rounded-lg px-1 text-xs">{context.cartProducts.length}</div></li>
+               <ShoppingCart/>
             </ul>
 
             

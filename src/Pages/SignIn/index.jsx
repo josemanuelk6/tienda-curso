@@ -1,22 +1,22 @@
 import { useContext, useState, useRef } from "react";
 import Layout from "../../Components/Layout";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { ShoppingCartContext } from "../../Context";
 
 
 function SignIn() {
 
   const context = useContext(ShoppingCartContext);
-  const [view, setView] = useState('user-info');
+  const [view, setView] = useState('user-info');  
   const form = useRef(null);
 
 //account
 const account = localStorage.getItem('account');
 const parsedAccount = JSON.parse(account);
 //has an account
-const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).lenght === 0 : true;
-const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true;
-const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState;
+const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true
+const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true
+const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState
 
 const createAnAccount = () => {
   const formData = new FormData(form.current);
@@ -25,8 +25,13 @@ const createAnAccount = () => {
     email: formData.get('email'),
     password: formData.get('password')
   }
-}
+  //create account
+const stringifiedAccount = JSON.stringify(data);
+localStorage.setItem('account', stringifiedAccount);
+context.setAccount(data);
 
+handleSignIn();
+}
 const renderLogIn = () => {
   return (
 <div className="flex flex-col w-80">
@@ -39,7 +44,7 @@ const renderLogIn = () => {
   <span>{parsedAccount?.password}</span>
 </p>
 <Link to="/">
-  <button onClick={()=> handleSignIn() } disabled={hasUserAnAccount}
+  <button onClick={()=> handleSignIn() } disabled={!hasUserAnAccount}
   className="bg-black disabled:bg-black/40 text-white w-full rounded-lg py-3 mt-4 mb-2">
     Log In
   </button>
@@ -87,19 +92,23 @@ const renderCreateUserInfo = () => {
 const renderView = () => view === 'create-user-info' ? renderCreateUserInfo() : renderLogIn()
 
 
+//sign in
 const handleSignIn = () => {
 
   const stringifiedSignOut = JSON.stringify(false);
   localStorage.setItem('sign-out', stringifiedSignOut);
   context.setSignOut(false);
+return(
+  <Navigate replace to={'/'}/>);
 }
 
 
    return (
-    <Layout>
-      <h1 className="mb-4 text-2xl font-medium">Sign In</h1>
-       {renderView()}  
-    </Layout>
+    
+     <Layout>
+       <h1 className="mb-4 text-2xl font-medium">Sign In</h1>
+        {renderView()}  
+     </Layout>
     )
   }
   
